@@ -1,7 +1,30 @@
 <script>
-	import Greet from '../lib/Greet.svelte';
+	import Greet from '$lib/native/Greet.svelte';
 	import { _ } from 'svelte-i18n';
+	import MahiwaTitle from '$lib/components/attom/text/MahiwaTitle.svelte';
+	import NormalButton from '$lib/components/attom/button/NormalButton.svelte';
 </script>
 
-<h1 class="text-3xl">{$_('top.top')}</h1>
-<Greet />
+<div class="pt-20 flex justify-center items-center flex-col">
+	<MahiwaTitle />
+	<div class="pt-12 flex justify-center imtes-center flex-wrap">
+		<NormalButton className="p-4" title={$_('top.button.flash')} url="/flash" />
+		<NormalButton className="p-4" title={$_('top.button.generate')} url="/generate" />
+		<NormalButton
+			className="p-4"
+			isInternal={false}
+			title={$_('top.button.document')}
+			url="https://mahiwa.usuyuki.net"
+		/>
+	</div>
+
+	<Greet />
+</div>
+<div class="hidden">
+	<!-- Tailwind明示のためのダミー -->
+	<div class="text-white bg-white"></div>
+	<div class="text-black bg-black"></div>
+	<div class="text-gray bg-gray"></div>
+	<div class="text-yellow bg-yellow"></div>
+	<div class="text-green bg-green"></div>
+</div>

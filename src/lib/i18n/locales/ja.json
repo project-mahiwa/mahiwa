@@ -1,5 +1,10 @@
 {
 	"top": {
-		"top": "Mahiwaへようこそ"
+		"title": "Project Mahiwa",
+		"button": {
+			"flash": "書き込み",
+			"generate": "ライブラリ生成",
+			"document": "ドキュメント"
+		}
 	}
 }
