@@ -14,9 +14,17 @@
 			className="p-4"
 			isInternal={false}
 			title={$_('top.button.document')}
-			url="/document"
+			url="https://mahiwa.usuyuki.net"
 		/>
 	</div>
 
 	<Greet />
+</div>
+<div class="hidden">
+	<!-- Tailwind明示のためのダミー -->
+	<div class="text-white bg-white"></div>
+	<div class="text-black bg-black"></div>
+	<div class="text-gray bg-gray"></div>
+	<div class="text-yellow bg-yellow"></div>
+	<div class="text-green bg-green"></div>
 </div>
