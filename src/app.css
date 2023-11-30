@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+	/* logo color */
+	--yellow: #ffd42a;
+	--gray: #aa9954;
+
+	--green: #e6fcb9;
+	--white: #fafcfe;
+	--black: #343536;
+}
+body {
+	background-color: var(--white);
+	color: var(--black);
+}
