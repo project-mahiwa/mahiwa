@@ -1,6 +1,10 @@
 # https://github.com/tauri-apps/tauri-action/blob/dev/examples/publish-to-manual-release.yml
 name: Release
-on: pull_request
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
 
 jobs:
   release:
