@@ -1,9 +1,9 @@
 ---
 name: バグ報告
 about: バグに関するissue
-title: "[🐛Bug]:"
-labels: "🐛bug"
-assignees: "usuyuki"
+title: '[🐛Bug]:'
+labels: '🐛bug'
+assignees: 'usuyuki'
 ---
 
 # 🐛 概要
