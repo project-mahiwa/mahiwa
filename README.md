@@ -4,7 +4,7 @@ https://tauri.app/v1/guides/getting-started/prerequisites
 をもとに必要なソフトウェアの用意
 
 ```
-pnpm i
+make init
 ```
 
 Rust側は実行時に自動解決
@@ -12,5 +12,13 @@ Rust側は実行時に自動解決
 ## Run
 
 ```
-pnpm tauri dev
+make build
 ```
+
+## Build
+
+```
+make build
+```
+
+https://tauri.app/v1/guides/building/
