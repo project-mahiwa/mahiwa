@@ -1,3 +1,9 @@
+# Mahiwa
+
+[![Release](https://github.com/project-mahiwa/mahiwa/actions/workflows/release.yml/badge.svg)](https://github.com/project-mahiwa/mahiwa/actions/workflows/release.yml)  
+[![Lint](https://github.com/project-mahiwa/mahiwa/actions/workflows/lint.yml/badge.svg)](https://github.com/project-mahiwa/mahiwa/actions/workflows/lint.yml)  
+[![静的解析 (svelte-check)](https://github.com/project-mahiwa/mahiwa/actions/workflows/staticAnalysis.yml/badge.svg)](https://github.com/project-mahiwa/mahiwa/actions/workflows/staticAnalysis.yml)
+
 ## Install
 
 https://tauri.app/v1/guides/getting-started/prerequisites  
