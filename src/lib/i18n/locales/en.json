@@ -1,5 +1,10 @@
 {
 	"top": {
-		"top": "Welcome to Mahiwa"
+		"title": "Project Mahiwa",
+		"button": {
+			"flash": "Flash",
+			"generate": "Generate",
+			"document": "Document"
+		}
 	}
 }
