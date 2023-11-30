@@ -33,6 +33,7 @@ make build
 https://tauri.app/v1/guides/building/
 
 AppImageの動作確認手順
+
 ```
 chmod +x mahiwa_0.1.0_amd64.AppImage
 ./mahiwa_0.1.0_amd64.AppImage
