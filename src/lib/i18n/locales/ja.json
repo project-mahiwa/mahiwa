@@ -8,6 +8,9 @@
 	"generator": {
 		"title": "ライブラリ生成"
 	},
+	"license": {
+		"title": "ライセンス"
+	},
 	"document": {
 		"title": "ドキュメント"
 	}
