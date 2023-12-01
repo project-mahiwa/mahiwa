@@ -14,4 +14,19 @@
 body {
 	background-color: var(--white);
 	color: var(--black);
+	font-family: 'DotGothic16';
+}
+@font-face {
+	font-display: swap;
+	font-weight: 400;
+	font-style: normal;
+	font-family: 'Kiwi Maru';
+	src: url('/fonts/Kiwi_Maru/KiwiMaru-Regular.ttf') format('truetype');
+}
+@font-face {
+	font-display: swap;
+	font-weight: 400;
+	font-style: normal;
+	font-family: 'DotGothic16';
+	src: url('/fonts/DotGothic16/DotGothic16-Regular.ttf') format('truetype');
 }
