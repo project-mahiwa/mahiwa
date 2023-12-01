@@ -7,7 +7,7 @@
 	});
 </script>
 
-<header class="flex items-center w-full h-16 border-b-2 border-gray">
+<header class="flex items-center border-b-2 border-gray">
 	<div class="w-1/3 pl-2">
 		<a class="" href="/">
 			<div class="flex justify-center items-center bg-black text-white w-8 h-8 rounded-full">

@@ -5,7 +5,7 @@
 	import NormalButton from '$lib/components/atom/button/NormalButton.svelte';
 </script>
 
-<div class="w-full h-full p-4 flex justify-center items-center flex-col">
+<div class="w-full h-full flex justify-center items-center flex-col">
 	<MahiwaTitle titleClass="text-2xl md:text-3xl" />
 	<div class="pt-12 flex justify-center imtes-center flex-wrap">
 		<NormalButton className="p-4" title={$_('flash.title')} url="/flash" />
