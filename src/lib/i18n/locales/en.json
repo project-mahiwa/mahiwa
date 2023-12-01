@@ -1,10 +1,14 @@
 {
 	"top": {
-		"title": "Project Mahiwa",
-		"button": {
-			"flash": "Flash",
-			"generate": "Generate",
-			"document": "Document"
-		}
+		"title": "Project Mahiwa"
+	},
+	"flash": {
+		"title": "Flash"
+	},
+	"generator": {
+		"title": "Generator"
+	},
+	"document": {
+		"title": "Document"
 	}
 }

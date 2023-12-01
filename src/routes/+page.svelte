@@ -8,12 +8,12 @@
 <div class="pt-20 flex justify-center items-center flex-col">
 	<MahiwaTitle />
 	<div class="pt-12 flex justify-center imtes-center flex-wrap">
-		<NormalButton className="p-4" title={$_('top.button.flash')} url="/flash" />
-		<NormalButton className="p-4" title={$_('top.button.generate')} url="/generate" />
+		<NormalButton className="p-4" title={$_('flash.title')} url="/flash" />
+		<NormalButton className="p-4" title={$_('generator.title')} url="/generator" />
 		<NormalButton
 			className="p-4"
 			isInternal={false}
-			title={$_('top.button.document')}
+			title={$_('document.title')}
 			url="https://mahiwa.usuyuki.net"
 		/>
 	</div>
