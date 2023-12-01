@@ -1,10 +1,17 @@
 {
 	"top": {
-		"title": "Project Mahiwa",
-		"button": {
-			"flash": "書き込み",
-			"generate": "ライブラリ生成",
-			"document": "ドキュメント"
-		}
+		"title": "Project Mahiwa"
+	},
+	"flash": {
+		"title": "書き込み"
+	},
+	"generator": {
+		"title": "ライブラリ生成"
+	},
+	"license": {
+		"title": "ライセンス"
+	},
+	"document": {
+		"title": "ドキュメント"
 	}
 }
