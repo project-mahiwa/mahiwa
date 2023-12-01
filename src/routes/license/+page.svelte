@@ -31,6 +31,9 @@
 	<title>{thisTitle}</title>
 </svelte:head>
 <SubTitle title="Font Licenses" />
-{#each fontInfos as fontInfo, index}
-	<LicenseCard licenseInfo={fontInfo} number={index} />
-{/each}
+<div class="flex items-center flex-col mt-4 mb-12">
+	{#each fontInfos as fontInfo, index}
+		<LicenseCard licenseInfo={fontInfo} number={index} />
+	{/each}
+</div>
+<SubTitle title="Software Licenses" />
