@@ -3,7 +3,24 @@
 		"title": "Project Mahiwa"
 	},
 	"flash": {
-		"title": "Flash"
+		"title": "Flash",
+		"input": {
+			"board": {
+				"title": "Select boards",
+				"select": "Select"
+			},
+			"wasmFileInput": {
+				"title": "Select WebAssembly file",
+				"select": "Click to upload or drag and drop .wasm file"
+			},
+			"addLibraries": {
+				"title": "Additional libraries",
+				"select": "Select"
+			},
+			"submit": {
+				"title": "Flash"
+			}
+		}
 	},
 	"generator": {
 		"title": "Generator"

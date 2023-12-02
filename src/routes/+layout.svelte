@@ -9,9 +9,11 @@
 {#if $page.url.pathname !== '/'}
 	<Header />
 {/if}
-<main>
-	<slot />
-</main>
+<div class="w-screen">
+	<main>
+		<slot />
+	</main>
+</div>
 {#if $page.url.pathname === '/'}
 	<Footer />
 {/if}
