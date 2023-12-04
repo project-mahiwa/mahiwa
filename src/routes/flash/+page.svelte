@@ -2,12 +2,12 @@
 	import { _ } from 'svelte-i18n';
 	import { title } from '$lib/stores/header';
 	import SubTitle from '$lib/components/atom/text/SubTitle.svelte';
-	import FileInput from '$lib/components/atom/input/FileInput.svelte';
-	import Submit from '$lib/components/atom/input/Submit.svelte';
-	import Select from '$lib/components/atom/input/Select.svelte';
+	import WasmInput from '$lib/components/molecule/flash/WasmInput.svelte';
+	import SelectBoard from '$lib/components/molecule/flash/SelectBoard.svelte';
+	import FlashButton from '$lib/components/molecule/flash/FlashButton.svelte';
+	import { boardName, wasmFilePath } from '$lib/stores/flash';
 
 	let thisTitle = $_('flash.title');
-	const boards = ['M5 Stack Core2', 'Raspberry Pi Pico W', 'Seeed Studio XIAO ESP32C3'];
 	title.set(thisTitle);
 </script>
 
@@ -16,9 +16,15 @@
 </svelte:head>
 <form method="POST" class="flex flex-col items-center justify-center">
 	<SubTitle title={'1. ' + $_('flash.input.board.title')} />
-	<Select name="board" items={boards} />
+	<SelectBoard />
 	<SubTitle title={'2. ' + $_('flash.input.wasmFileInput.title')} />
-	<FileInput name="wasm" inputMessage={$_('flash.input.wasmFileInput.select')} />
+	<WasmInput />
 	<!-- <SubTitle title={'3. ' + $_('flash.input.addLibraries.title')} /> -->
-	<Submit title={$_('flash.input.submit.title')} />
+	<p class="text-center mt-12 text-gray">
+		Board:{$boardName === '' ? $_('flash.notSelected') : $boardName}
+	</p>
+	<p class="text-center mt-2 text-gray">
+		Wasm:{$wasmFilePath === '' ? $_('flash.notSelected') : $wasmFilePath}
+	</p>
+	<FlashButton />
 </form>

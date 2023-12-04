@@ -4,14 +4,16 @@
 	},
 	"flash": {
 		"title": "書き込み",
+		"notSelected": "選択されていません",
 		"input": {
 			"board": {
 				"title": "マイコンボードの選択",
-				"select": "選択"
+				"select": "選択してください"
 			},
 			"wasmFileInput": {
 				"title": "WebAssemblyファイルの選択",
-				"select": "クリックまたはドラッグ&ドロップで.wasmファイルをアップロードしてください"
+				"select": "クリックして.wasmファイルを選択してください",
+				"reselect": "クリックすると.wasmファイルを再選択できます"
 			},
 			"addLibraries": {
 				"title": "追加ライブラリの追加",

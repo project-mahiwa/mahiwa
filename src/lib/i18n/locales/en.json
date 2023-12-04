@@ -4,14 +4,16 @@
 	},
 	"flash": {
 		"title": "Flash",
+		"notSelected": "Not selected",
 		"input": {
 			"board": {
 				"title": "Select boards",
-				"select": "Select"
+				"select": "Please select a board"
 			},
 			"wasmFileInput": {
 				"title": "Select WebAssembly file",
-				"select": "Click to upload or drag and drop .wasm file"
+				"select": "Click to select .wasm file",
+				"reselect": "Click to reselect the .wasm file"
 			},
 			"addLibraries": {
 				"title": "Additional libraries",
