@@ -9,12 +9,12 @@
 	<div class="border-2 border-gray p-2">
 		<h3 class="text-xl">{number + 1}.{licenseInfo['name']}</h3>
 		<p>
-			<a target="_blank" rel="norefferrer" href={licenseInfo['licenseUrl']}>
+			<a target="_blank" href={licenseInfo['licenseUrl']}>
 				{licenseInfo['license']}
 			</a>
 		</p>
 		<p>
-			<a target="_blank" rel="norefferrer" href={licenseInfo['url']}>
+			<a target="_blank" href={licenseInfo['url']}>
 				{licenseInfo.credit}
 			</a>
 		</p>
