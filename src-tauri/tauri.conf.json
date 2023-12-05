@@ -20,6 +20,9 @@
       "dialog": {
         "open": true,
         "message": true
+      },
+      "os": {
+        "all": true
       }
     },
     "bundle": {
