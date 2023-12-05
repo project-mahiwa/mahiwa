@@ -18,7 +18,7 @@
 			</div>
 		</a>
 	{:else}
-		<a target="_blank" rel="norefferrer" href={url}>
+		<a target="_blank" href={url}>
 			<div
 				class="flex rounded-xl bg-{bgColorVariable} px-4 py-3 hover:bg-{textColorVariable} hover:text-{bgColorVariable} text-{textColorVariable} duration-500"
 			>
