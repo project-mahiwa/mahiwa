@@ -18,7 +18,14 @@
 		result = await invoke('flash_to_mcu', {
 			boardName: $boardName,
 			wasmFilePath: $wasmFilePath
-		});
+		})
+			.then((res) => {
+				return String(res);
+			})
+			.catch((err) => {
+				console.log(err);
+				return String(err);
+			});
 	}
 </script>
 
