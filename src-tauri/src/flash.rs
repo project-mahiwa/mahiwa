@@ -1,5 +1,8 @@
 use crate::board_info;
-use tauri::{Manager, Window};
+use std::io::{BufRead, BufReader};
+use std::process::{Command, Stdio};
+use tauri::AppHandle;
+use tauri::Window;
 
 #[tauri::command]
 pub fn get_boards_for_select() -> Vec<String> {
@@ -15,12 +18,15 @@ pub fn get_boards_for_select() -> Vec<String> {
 #[tauri::command]
 pub async fn flash_to_mcu(
     window: Window,
+    app_handle: AppHandle,
     board_name: &str,
     wasm_file_path: &str,
 ) -> Result<String, String> {
     println!("board_name: {}", board_name);
     println!("wasm_file_path: {}", wasm_file_path);
     std::thread::sleep(std::time::Duration::from_secs(4));
+    let appdir = app_handle.path_resolver().app_local_data_dir().unwrap();
+    println!("appdir: {:?}", appdir);
     //git clone
     window
         .emit("btf-flash-prgoress", "git clone completed")
