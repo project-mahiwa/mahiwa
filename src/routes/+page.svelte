@@ -1,5 +1,4 @@
 <script>
-	import Greet from '$lib/native/Greet.svelte';
 	import { _ } from 'svelte-i18n';
 	import MahiwaTitle from '$lib/components/atom/text/MahiwaTitle.svelte';
 	import NormalButton from '$lib/components/atom/button/NormalButton.svelte';
@@ -17,8 +16,6 @@
 			url="https://mahiwa.usuyuki.net"
 		/>
 	</div>
-
-	<Greet />
 </div>
 <div class="hidden">
 	<!-- Tailwind明示のためのダミー -->

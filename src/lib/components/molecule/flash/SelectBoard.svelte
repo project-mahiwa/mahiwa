@@ -2,11 +2,10 @@
 	import { _ } from 'svelte-i18n';
 	import { invoke } from '@tauri-apps/api/tauri';
 	import { boardName } from '$lib/stores/flash';
-	let boards: string[] = [];
 	//Rustからボード名を取得してIIFEする
-	(async function () {
-		boards = await invoke('get_boards_for_select');
-	})();
+	async function loadBoards(): Promise<string[]> {
+		return await invoke('get_boards_for_select');
+	}
 	const handleSelectChange = (event: Event) => {
 		const target = event.target as HTMLSelectElement;
 		boardName.set(target.value);
@@ -18,7 +17,11 @@
 	on:change={handleSelectChange}
 >
 	<option disabled value="">{$_('flash.input.board.select')}</option>
-	{#each boards as item}
-		<option value={item}>{item}</option>
-	{/each}
+	{#await loadBoards() then boards}
+		{#each boards as item}
+			<option value={item}>{item}</option>
+		{/each}
+	{:catch error}
+		<p>error: {error.message}</p>
+	{/await}
 </select>

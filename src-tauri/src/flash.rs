@@ -10,3 +10,10 @@ pub fn get_boards_for_select() -> Vec<String> {
     }
     return board_names;
 }
+
+#[tauri::command]
+pub fn flash_to_mcu(board_name: &str, wasm_file_path: &str) -> String {
+    println!("board_name: {}", board_name);
+    println!("wasm_file_path: {}", wasm_file_path);
+    return "flash_to_mcu".to_string();
+}
