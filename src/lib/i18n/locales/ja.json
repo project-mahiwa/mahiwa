@@ -22,6 +22,9 @@
 			"submit": {
 				"title": "書き込み"
 			}
+		},
+		"progress": {
+			"title": "チェックと書き込み中..."
 		}
 	},
 	"generator": {
