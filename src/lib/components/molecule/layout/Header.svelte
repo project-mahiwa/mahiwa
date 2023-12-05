@@ -1,10 +1,6 @@
 <script>
 	import MahiwaTitle from '$lib/components/atom/text/MahiwaTitle.svelte';
 	import { title } from '$lib/stores/header';
-	let title_value = '';
-	title.subscribe((value) => {
-		title_value = value;
-	});
 </script>
 
 <header class="flex items-center border-b-2 border-gray">
@@ -15,7 +11,7 @@
 			</div>
 		</a>
 	</div>
-	<div class="w-1/3 text-2xl text-center">{title_value}</div>
+	<div class="w-1/3 text-2xl text-center">{$title}</div>
 	<div class="w-1/3 flex justify-end pr-4">
 		<MahiwaTitle titleClass="text-xl md:text-xl" />
 	</div>

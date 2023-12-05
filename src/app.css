@@ -12,11 +12,14 @@
 	--black: #343536;
 	--headerHeight: 60px;
 	--footerHeight: 40px;
+	/* でかいモニターで開かれてもいいように */
+	--main-max-width: 1300px;
 }
 /* トップページの画面調整 */
 main {
-	width: 100vw;
+	max-width: var(--main-max-width);
 	height: calc(100vh - var(--footerHeight));
+	margin: 0 auto;
 }
 header {
 	width: 100vw;
