@@ -22,23 +22,112 @@ pub async fn flash_to_mcu(
     board_name: &str,
     wasm_file_path: &str,
 ) -> Result<String, String> {
-    println!("board_name: {}", board_name);
-    println!("wasm_file_path: {}", wasm_file_path);
-    std::thread::sleep(std::time::Duration::from_secs(4));
-    let appdir = app_handle.path_resolver().app_local_data_dir().unwrap();
-    println!("appdir: {:?}", appdir);
-    //git clone
+    // /home/usuyuki/.local/share/net.usuyuki.mahiwa 的なのが取れる
+    let local_data_dir = app_handle.path_resolver().app_local_data_dir().unwrap();
+    // /home/usuyuki/.cache/net.usuyuki.mahiwa 的なのが取れる
+    let cache_dir = app_handle.path_resolver().app_cache_dir().unwrap();
+    let mahiwa_dir = local_data_dir.join("mahiwa");
+    let backend_dir = mahiwa_dir.join("mahiwa-backend");
+
+    /*
+     * mahiwa-backendのgit clone(setupでなくここでやることで起動速度を防ぎ、かつ最新を使うようにする)
+     */
+    // mahiwa-backendディレクトリの存在確認
+    if backend_dir.exists() {
+        window.emit("btf-flash-prgoress", "git clone ...").unwrap();
+        // Gitリポジトリが存在するか確認
+        if backend_dir.join(".git").exists() {
+            // Gitリポジトリを更新 fetch origin mainにして reset --hard origin/main方式もあり
+            let output = Command::new("git")
+                .args(["pull", "origin", "main"])
+                .current_dir(&backend_dir)
+                .output()
+                .expect("Failed to pull git repository");
+            window
+                .emit(
+                    "btf-flash-prgoress",
+                    std::str::from_utf8(&output.stdout).unwrap(),
+                )
+                .unwrap();
+        } else {
+            // Gitリポジトリをクローン
+            let output = Command::new("git")
+                // @todo ここ公開したらssh外す
+                .args([
+                    "clone",
+                    "git@github.com:project-mahiwa/mahiwa-backend.git",
+                    &backend_dir.to_string_lossy(),
+                ])
+                .output()
+                .expect("Failed to clone git repository");
+            window
+                .emit(
+                    "btf-flash-prgoress",
+                    std::str::from_utf8(&output.stdout).unwrap(),
+                )
+                .unwrap();
+        }
+    } else {
+        // mahiwa-backendディレクトリとGitリポジトリを作成
+        std::fs::create_dir_all(&backend_dir).unwrap();
+        let output = Command::new("git")
+            // @todo ここ公開したらssh外す
+            .args([
+                "clone",
+                "git@github.com:project-mahiwa/mahiwa-backend.git",
+                &backend_dir.to_string_lossy(),
+            ])
+            .output()
+            .expect("Failed to clone git repository");
+        window
+            .emit(
+                "btf-flash-prgoress",
+                std::str::from_utf8(&output.stdout).unwrap(),
+            )
+            .unwrap();
+    }
+
+    /*
+     * いただいたwasmをcpして一時ディレクトリに名前を変えて入れる
+     * xxdする上でヘッダファイルの変数名はファイル名依存、xxdコマンドにはそういう機能がないので、cache_dirにuser.wasmファイルとしてコピーする
+     */
+    let tmp_wasm_path = cache_dir.join("user.wasm");
+    let tmp_wasm_path_str = tmp_wasm_path.to_str().unwrap();
+    Command::new("cp")
+        .args(["-f", wasm_file_path, tmp_wasm_path_str])
+        .current_dir(&backend_dir)
+        .output()
+        .expect("Failed to cp");
     window
-        .emit("btf-flash-prgoress", "git clone completed")
+        .emit(
+            "btf-flash-prgoress",
+            format!("cp {} {}", wasm_file_path, tmp_wasm_path_str),
+        )
         .unwrap();
-    std::thread::sleep(std::time::Duration::from_secs(1));
-    // xxdでヘッダファイルに変換
-    // btf-flash-prgoressへのログをエミット
+
+    /*
+     * xxdでヘッダファイルを作成
+     */
+    let flash_wasm_path = backend_dir.join("src/wasm/user.h");
+    let flash_wasm_path_str = flash_wasm_path.to_str().unwrap();
+    Command::new("xxd")
+        .args(["-i", tmp_wasm_path_str, ">", flash_wasm_path_str])
+        .current_dir(&backend_dir)
+        .output()
+        .expect("Failed to pull git repository");
     window
-        .emit("btf-flash-prgoress", "xxd conversion completed")
+        .emit(
+            "btf-flash-prgoress",
+            format!("xxd -i {} > {}", tmp_wasm_path_str, flash_wasm_path_str),
+        )
         .unwrap();
-    std::thread::sleep(std::time::Duration::from_secs(1));
-    // pioで書き込み
+
+    /*
+     * get_boardsでpio_envrionment_nameを取得
+     */
+    let boards = board_info::get_boards();
+    let board = boards.get(board_name).unwrap();
+    let pio_envrionment_name = board.get_pio_envrionment_name();
     window
         .emit("btf-flash-prgoress", "pio write completed")
         .unwrap();
