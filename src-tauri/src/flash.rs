@@ -1,4 +1,6 @@
 use crate::board_info;
+use std::fs::File;
+use std::io::Write;
 use std::io::{BufRead, BufReader};
 use std::process::{Command, Stdio};
 use tauri::AppHandle;
@@ -95,7 +97,6 @@ pub async fn flash_to_mcu(
     let tmp_wasm_path_str = tmp_wasm_path.to_str().unwrap();
     Command::new("cp")
         .args(["-f", wasm_file_path, tmp_wasm_path_str])
-        .current_dir(&backend_dir)
         .output()
         .expect("Failed to cp");
     window
@@ -110,11 +111,18 @@ pub async fn flash_to_mcu(
      */
     let flash_wasm_path = backend_dir.join("src/wasm/user.h");
     let flash_wasm_path_str = flash_wasm_path.to_str().unwrap();
-    Command::new("xxd")
-        .args(["-i", tmp_wasm_path_str, ">", flash_wasm_path_str])
-        .current_dir(&backend_dir)
+    // xxdでリダイレクトがCommandでできないので一旦保持する
+    // wasmファイル名がそのまま変数になるのでカレントディレクトリをtmpにする
+    let output = Command::new("xxd")
+        .args(&["-i", "user.wasm"])
+        .current_dir(&cache_dir)
         .output()
-        .expect("Failed to pull git repository");
+        .expect("Failed to execute xxd");
+
+    // xxdの出力をファイルに書き込む
+    let mut file = File::create(flash_wasm_path_str).expect("Failed to create file");
+    file.write_all(&output.stdout)
+        .expect("Failed to write to file");
     window
         .emit(
             "btf-flash-prgoress",
@@ -128,15 +136,31 @@ pub async fn flash_to_mcu(
     let boards = board_info::get_boards();
     let board = boards.get(board_name).unwrap();
     let pio_envrionment_name = board.get_pio_envrionment_name();
-    window
-        .emit("btf-flash-prgoress", "pio write completed")
-        .unwrap();
-    std::thread::sleep(std::time::Duration::from_secs(1));
-    // シリアル通信
-    // btf-flash-prgoressへのログをエミット
-    window
-        .emit("btf-flash-prgoress", "serial communication completed")
-        .unwrap();
-    std::thread::sleep(std::time::Duration::from_secs(1));
+    /*
+     * pioで書き込み
+     */
+    let mut command = Command::new("pio")
+        .args(["run", "-t", "upload", "-e", pio_envrionment_name])
+        .current_dir(&backend_dir)
+        .stdout(Stdio::piped())
+        .spawn()
+        .expect("Failed to pio run");
+
+    if let Some(output) = command.stdout.take() {
+        let reader = BufReader::new(output);
+
+        // 標準出力を逐次読み取り
+        for line in reader.lines() {
+            match line {
+                Ok(line) => {
+                    // Tauriのイベントとしてフロントエンドに送信
+                    window
+                        .emit("command-output", line)
+                        .expect("イベントの送信に失敗しました");
+                }
+                Err(e) => eprintln!("エラー: {}", e),
+            }
+        }
+    }
     return Ok("run".to_string());
 }
