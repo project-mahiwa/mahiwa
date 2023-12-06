@@ -139,28 +139,17 @@ pub async fn flash_to_mcu(
     /*
      * pioで書き込み
      */
-    let mut command = Command::new("pio")
+    let mut child = Command::new("pio")
         .args(["run", "-t", "upload", "-e", pio_envrionment_name])
         .current_dir(&backend_dir)
         .stdout(Stdio::piped())
         .spawn()
         .expect("Failed to pio run");
-
-    if let Some(output) = command.stdout.take() {
-        let reader = BufReader::new(output);
-
-        // 標準出力を逐次読み取り
-        for line in reader.lines() {
-            match line {
-                Ok(line) => {
-                    // Tauriのイベントとしてフロントエンドに送信
-                    window
-                        .emit("command-output", line)
-                        .expect("イベントの送信に失敗しました");
-                }
-                Err(e) => eprintln!("エラー: {}", e),
-            }
-        }
+    let stdout = child.stdout.take().unwrap();
+    // 1行ずつ結果を取る
+    let reader = BufReader::new(stdout);
+    for line in reader.lines() {
+        window.emit("btf-flash-prgoress", line.unwrap()).unwrap();
     }
     return Ok("run".to_string());
 }
