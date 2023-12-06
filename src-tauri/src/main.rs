@@ -26,7 +26,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             flash::flash_to_mcu,
             flash::get_boards_for_select,
-            flash::serial
+            flash::serial::serial
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
