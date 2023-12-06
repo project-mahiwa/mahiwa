@@ -21,6 +21,9 @@
 			},
 			"submit": {
 				"title": "Flash"
+			},
+			"communication": {
+				"title": "Connecting"
 			}
 		},
 		"progress": {

@@ -25,6 +25,9 @@
 		},
 		"progress": {
 			"title": "チェックと書き込み中..."
+		},
+		"communication": {
+			"title": "通信中..."
 		}
 	},
 	"generator": {

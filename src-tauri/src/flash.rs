@@ -23,7 +23,7 @@ pub async fn flash_to_mcu(
     app_handle: AppHandle,
     board_name: &str,
     wasm_file_path: &str,
-) -> Result<String, String> {
+) -> Result<(), ()> {
     // /home/usuyuki/.local/share/net.usuyuki.mahiwa 的なのが取れる
     let local_data_dir = app_handle.path_resolver().app_local_data_dir().unwrap();
     // /home/usuyuki/.cache/net.usuyuki.mahiwa 的なのが取れる
@@ -109,7 +109,7 @@ pub async fn flash_to_mcu(
     /*
      * xxdでヘッダファイルを作成
      */
-    let flash_wasm_path = backend_dir.join("src/wasm/user.h");
+    let flash_wasm_path = backend_dir.join("src").join("wasm").join("user.h");
     let flash_wasm_path_str = flash_wasm_path.to_str().unwrap();
     // xxdでリダイレクトがCommandでできないので一旦保持する
     // wasmファイル名がそのまま変数になるのでカレントディレクトリをtmpにする
@@ -151,5 +151,24 @@ pub async fn flash_to_mcu(
     for line in reader.lines() {
         window.emit("btf-flash-prgoress", line.unwrap()).unwrap();
     }
-    return Ok("run".to_string());
+    return Ok(());
+}
+
+#[tauri::command]
+pub fn serial(window: Window) -> Result<(), ()> {
+    /*
+     * pio monitorで見る
+     */
+    let mut child = Command::new("pio")
+        .args(["device", "monitor", "-b", "115200"])
+        .stdout(Stdio::piped())
+        .spawn()
+        .expect("Failed to pio device monitor");
+    let stdout = child.stdout.take().unwrap();
+    // 1行ずつ結果を取る
+    let reader = BufReader::new(stdout);
+    for line in reader.lines() {
+        window.emit("btf-flash-prgoress", line.unwrap()).unwrap();
+    }
+    return Ok(());
 }

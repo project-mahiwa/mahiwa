@@ -11,7 +11,6 @@ fn main() {
             let local_data_dir = app.path_resolver().app_local_data_dir().unwrap();
             let cache_dir = app.path_resolver().app_cache_dir().unwrap();
             let mahiwa_dir = local_data_dir.join("mahiwa");
-            let backend_dir = mahiwa_dir.join("mahiwa-backend");
 
             // cache_dirにディレクトリなければ作る
             if !cache_dir.exists() {
@@ -26,7 +25,8 @@ fn main() {
         })
         .invoke_handler(tauri::generate_handler![
             flash::flash_to_mcu,
-            flash::get_boards_for_select
+            flash::get_boards_for_select,
+            flash::serial
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

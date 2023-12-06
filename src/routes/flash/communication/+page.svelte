@@ -5,10 +5,9 @@
 	import { invoke } from '@tauri-apps/api/tauri';
 	import { boardName, wasmFilePath } from '$lib/stores/flash';
 	import SubTitle from '$lib/components/atom/text/SubTitle.svelte';
-	import { goto } from '$app/navigation';
 	let backendLog = '';
 	let logContainer: HTMLDivElement;
-	listen('btf-flash-prgoress', (event) => {
+	listen('btf-flash-communication', (event) => {
 		backendLog += `${event.payload}\n`;
 	});
 	// unlisten();
@@ -18,12 +17,11 @@
 
 		// Rustに渡す
 		(async () => {
-			await invoke('flash_to_mcu', {
+			await invoke('serial', {
 				boardName: $boardName,
 				wasmFilePath: $wasmFilePath
 			})
 				.then((res) => {
-					goto('/flash/communication');
 					return res;
 				})
 				.catch((err) => {
@@ -38,7 +36,7 @@
 	});
 </script>
 
-<SubTitle title={$_('flash.progress.title')} />
+<SubTitle title={$_('flash.communication.title')} />
 <div bind:this={logContainer} class="overflow-y-scroll h-96 text-white bg-black">
 	<pre class="">{backendLog}</pre>
 </div>
