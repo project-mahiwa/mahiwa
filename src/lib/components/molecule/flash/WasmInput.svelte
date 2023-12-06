@@ -4,6 +4,7 @@
 
 	import { wasmFilePath } from '$lib/stores/flash';
 
+	wasmFilePath.set('/home/usuyuki/ダウンロード/helloworld.wasm');
 	async function openDialog() {
 		await open({
 			multiple: true,

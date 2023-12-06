@@ -2,6 +2,7 @@ use std::collections::HashMap;
 pub struct Board {
     //ボードの情報
     board: String,
+    pio_envrionment_name: String,
     soc: String,
     api: String,
     ram: i32,
@@ -27,13 +28,18 @@ pub struct Board {
     spi_miso: i32,
     //path(SvelteKit側で使うためのやつ)
 }
-
+impl Board {
+    pub fn get_pio_envrionment_name(&self) -> &String {
+        &self.pio_envrionment_name
+    }
+}
 pub fn get_boards() -> HashMap<String, Board> {
     let mut boards = HashMap::new();
     boards.insert(
         "M5 Stack Core2".to_string(),
         Board {
             board: "M5 Stack Core2".to_string(),
+            pio_envrionment_name: "m5stack-core2".to_string(),
             soc: "ESP32-D0WDQ6-V3".to_string(),
             api: "ESP32".to_string(),
             ram: 8,
@@ -59,6 +65,8 @@ pub fn get_boards() -> HashMap<String, Board> {
         "Raspberry Pi Pico W".to_string(),
         Board {
             board: "Raspberry Pi Pico W".to_string(),
+            // これどうなの↓
+            pio_envrionment_name: "pico".to_string(),
             soc: "RP2040".to_string(),
             api: "RP2040".to_string(),
             ram: 264,
@@ -85,6 +93,7 @@ pub fn get_boards() -> HashMap<String, Board> {
         "Seeed Studio XIAO ESP32C3".to_string(),
         Board {
             board: "Seeed Studio XIAO ESP32C3".to_string(),
+            pio_envrionment_name: "seeed_xiao_esp32c3".to_string(),
             soc: "ESP32-C3".to_string(),
             api: "ESP32".to_string(),
             ram: 400,

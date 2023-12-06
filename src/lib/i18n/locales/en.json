@@ -21,7 +21,13 @@
 			},
 			"submit": {
 				"title": "Flash"
+			},
+			"communication": {
+				"title": "Connecting"
 			}
+		},
+		"progress": {
+			"title": "Checking and writing"
 		}
 	},
 	"generator": {
