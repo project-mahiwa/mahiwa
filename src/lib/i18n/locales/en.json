@@ -19,6 +19,11 @@
 				"title": "Additional libraries",
 				"select": "Select"
 			},
+			"port": {
+				"title": "Write port selection",
+				"get": "Get port list",
+				"select": "Please select a port"
+			},
 			"submit": {
 				"title": "Flash"
 			},
