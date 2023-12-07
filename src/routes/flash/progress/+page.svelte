@@ -3,7 +3,7 @@
 	import { _ } from 'svelte-i18n';
 	import { onMount, afterUpdate } from 'svelte';
 	import { invoke } from '@tauri-apps/api/tauri';
-	import { boardName, wasmFilePath } from '$lib/stores/flash';
+	import { boardName, wasmFilePath, portName } from '$lib/stores/flash';
 	import SubTitle from '$lib/components/atom/text/SubTitle.svelte';
 	import { goto } from '$app/navigation';
 	let backendLog = '';
@@ -20,7 +20,8 @@
 		(async () => {
 			await invoke('flash_to_mcu', {
 				boardName: $boardName,
-				wasmFilePath: $wasmFilePath
+				wasmFilePath: $wasmFilePath,
+				portName: $portName
 			})
 				.then((res) => {
 					goto('/flash/communication');

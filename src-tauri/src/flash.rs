@@ -25,6 +25,7 @@ pub async fn flash_to_mcu(
     app_handle: AppHandle,
     board_name: &str,
     wasm_file_path: &str,
+    port_name: &str,
 ) -> Result<(), ()> {
     // /home/usuyuki/.local/share/net.usuyuki.mahiwa 的なのが取れる
     let local_data_dir = app_handle.path_resolver().app_local_data_dir().unwrap();
@@ -142,7 +143,15 @@ pub async fn flash_to_mcu(
      * pioで書き込み
      */
     let mut child = Command::new("pio")
-        .args(["run", "-t", "upload", "-e", pio_envrionment_name])
+        .args([
+            "run",
+            "-t",
+            "upload",
+            "-e",
+            pio_envrionment_name,
+            "--upload-port",
+            port_name,
+        ])
         .current_dir(&backend_dir)
         .stdout(Stdio::piped())
         .spawn()

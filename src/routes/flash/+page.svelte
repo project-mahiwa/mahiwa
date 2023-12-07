@@ -5,7 +5,8 @@
 	import WasmInput from '$lib/components/molecule/flash/WasmInput.svelte';
 	import SelectBoard from '$lib/components/molecule/flash/SelectBoard.svelte';
 	import FlashButton from '$lib/components/molecule/flash/FlashButton.svelte';
-	import { boardName, wasmFilePath } from '$lib/stores/flash';
+	import SelectPort from '$lib/components/molecule/flash/SelectPort.svelte';
+	import { boardName, wasmFilePath, portName } from '$lib/stores/flash';
 
 	let thisTitle = $_('flash.title');
 	title.set(thisTitle);
@@ -19,12 +20,17 @@
 	<SelectBoard />
 	<SubTitle title={'2. ' + $_('flash.input.wasmFileInput.title')} />
 	<WasmInput />
+	<SubTitle title={'3. ' + $_('flash.input.port.title')} />
+	<SelectPort />
 	<!-- <SubTitle title={'3. ' + $_('flash.input.addLibraries.title')} /> -->
 	<p class="text-center mt-12 text-gray">
 		Board:{$boardName === '' ? $_('flash.notSelected') : $boardName}
 	</p>
 	<p class="text-center mt-2 text-gray">
 		Wasm:{$wasmFilePath === '' ? $_('flash.notSelected') : $wasmFilePath}
+	</p>
+	<p class="text-center mt-2 text-gray">
+		Port:{$portName === '' ? $_('flash.notSelected') : $portName}
 	</p>
 	<FlashButton />
 </form>
