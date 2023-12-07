@@ -40,6 +40,9 @@
 </script>
 
 <SubTitle title={$_('flash.progress.title')} />
-<div bind:this={logContainer} class="overflow-y-scroll h-96 text-white bg-black">
+<div
+	bind:this={logContainer}
+	class="overflow-y-scroll break-all h-96 w-full text-white bg-black p-2"
+>
 	<pre class="">{backendLog}</pre>
 </div>

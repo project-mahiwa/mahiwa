@@ -2,8 +2,7 @@ use std::{io, thread, time};
 use tauri::Window;
 
 #[tauri::command]
-pub fn serial(window: Window, port_name: &str) -> Result<(), ()> {
-    let baud_rate = 115200;
+pub fn serial(window: Window, port_name: &str, baud_rate: u32) -> Result<(), ()> {
     let mut serial_port = match serialport::new(port_name, baud_rate).open() {
         Ok(port) => port,
         Err(_) => return Err(()),

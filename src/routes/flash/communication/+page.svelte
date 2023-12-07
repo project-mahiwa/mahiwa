@@ -19,7 +19,8 @@
 		// Rustに渡す
 		(async () => {
 			await invoke('serial', {
-				portName: $portName
+				portName: $portName,
+				baudRate: 115200
 			})
 				.then((res) => {
 					return res;
@@ -37,6 +38,6 @@
 </script>
 
 <SubTitle title={$_('flash.communication.title')} />
-<div bind:this={logContainer} class="overflow-y-scroll h-96 text-white bg-black">
+<div bind:this={logContainer} class="overflow-y-scroll break-all h-96 text-white bg-black p-2">
 	<pre class="">{backendLog}</pre>
 </div>
