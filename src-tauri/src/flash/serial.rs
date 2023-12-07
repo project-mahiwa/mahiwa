@@ -1,41 +1,31 @@
-// use serialport::prelude::*;
-// use std::io::{self, Read};
-// use std::time::Duration;
-// use tauri::Window;
+use std::{io, thread, time};
+use tauri::Window;
 
-// #[tauri::command]
-// pub fn serial(window: Window) -> Result<(), ()> {
-//     let port_name = "/dev/ttyUSB0";
-//     let baud_rate = 9600;
-//
-//     let settings = SerialPortSettings {
-//         baud_rate,
-//         timeout: Duration::from_secs(1),
-//         ..Default::default()
-//     };
-//
-//     match serialport::open_with_settings(&port_name, &settings) {
-//         Ok(mut port) => {
-//             let mut serial_buf: Vec<u8> = vec![0; 1000];
-//             println!("Reading data from {} at {} baud:", &port_name, &baud_rate);
-//             loop {
-//                 match port.read(serial_buf.as_mut_slice()) {
-//                     Ok(t) => io::stdout().write_all(&serial_buf[..t]).unwrap(),
-//                     Err(ref e) if e.kind() == io::ErrorKind::TimedOut => (),
-//                     Err(e) => eprintln!("{:?}", e),
-//                 }
-//             }
-//         }
-//         Err(e) => {
-//             eprintln!("Failed to open \"{}\". Error: {}", port_name, e);
-//             ::std::process::exit(1);
-//         }
-//     }
-//     // for line in reader.lines() {
-//     //     window.emit("btf-flash-prgoress", line.unwrap()).unwrap();
-//     // }
-//     return Ok(());
-// }
+#[tauri::command]
+pub fn serial(window: Window, port_name: &str) -> Result<(), ()> {
+    let baud_rate = 115200;
+    let mut serial_port = match serialport::new(port_name, baud_rate).open() {
+        Ok(port) => port,
+        Err(_) => return Err(()),
+    };
+
+    let mut serial_buf: Vec<u8> = vec![0; 1000];
+    let read_timeout = time::Duration::from_millis(1000);
+
+    // シリアル通信の結果をプロセス間通信でSvelteに横流しする
+    thread::spawn(move || loop {
+        match serial_port.read(serial_buf.as_mut_slice()) {
+            Ok(t) => {
+                let read_result = String::from_utf8_lossy(&serial_buf[..t]);
+                window.emit("btf-flash-communication", read_result).unwrap();
+            }
+            Err(ref e) if e.kind() == io::ErrorKind::TimedOut => (),
+            Err(e) => eprintln!("{:?}", e),
+        }
+        thread::sleep(read_timeout);
+    });
+    return Ok(());
+}
 
 //利用可能なシリアルポートの一覧を取得する
 #[tauri::command]

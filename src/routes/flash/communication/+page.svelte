@@ -3,12 +3,13 @@
 	import { _ } from 'svelte-i18n';
 	import { onMount, afterUpdate } from 'svelte';
 	import { invoke } from '@tauri-apps/api/tauri';
-	import { boardName, wasmFilePath } from '$lib/stores/flash';
+	import { portName } from '$lib/stores/flash';
 	import SubTitle from '$lib/components/atom/text/SubTitle.svelte';
 	let backendLog = '';
 	let logContainer: HTMLDivElement;
 	listen('btf-flash-communication', (event) => {
-		backendLog += `${event.payload}\n`;
+		// シリアル通信の改行を尊重したいので、こっちで付けないようにする
+		backendLog += `${event.payload}`;
 	});
 	// unlisten();
 
@@ -18,8 +19,7 @@
 		// Rustに渡す
 		(async () => {
 			await invoke('serial', {
-				boardName: $boardName,
-				wasmFilePath: $wasmFilePath
+				portName: $portName
 			})
 				.then((res) => {
 					return res;
