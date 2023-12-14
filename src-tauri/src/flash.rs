@@ -60,7 +60,7 @@ pub async fn flash_to_mcu(
                 // @todo ここ公開したらssh外す
                 .args([
                     "clone",
-                    "git@github.com:project-mahiwa/mahiwa-backend.git",
+                    "https://github.com/project-mahiwa/mahiwa-backend.git",
                     &backend_dir.to_string_lossy(),
                 ])
                 .output()
@@ -79,7 +79,7 @@ pub async fn flash_to_mcu(
             // @todo ここ公開したらssh外す
             .args([
                 "clone",
-                "git@github.com:project-mahiwa/mahiwa-backend.git",
+                "https://github.com/project-mahiwa/mahiwa-backend.git",
                 &backend_dir.to_string_lossy(),
             ])
             .output()
