@@ -38,3 +38,9 @@ AppImageの動作確認手順
 chmod +x mahiwa_0.1.0_amd64.AppImage
 ./mahiwa_0.1.0_amd64.AppImage
 ```
+
+## Update
+
+1. src-tauir/cargo.tomlのバージョンを上げる
+2. GitHubでtagを切ってバージョンを上げる
+3. GitHub Actionsで自動ビルド
