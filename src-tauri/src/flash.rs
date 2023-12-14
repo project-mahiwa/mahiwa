@@ -110,6 +110,16 @@ pub async fn flash_to_mcu(
         .unwrap();
 
     /*
+     * WebAssemblyで不要なデバッグ情報を消して容量削減(最適化ではない)
+     * 最適化もデバッグ情報削除もコンパイラでできるが、任意のwasmが来る想定で実施する
+     */
+    Command::new("wasm-strip")
+        .args(["-o", tmp_wasm_path_str, tmp_wasm_path_str])
+        .output()
+        .expect("Failed to execute wasm-strip");
+    window.emit("btf-flash-prgoress", "wasm-strip").unwrap();
+
+    /*
      * xxdでヘッダファイルを作成
      */
     let flash_wasm_path = backend_dir.join("src").join("wasm").join("user.h");
