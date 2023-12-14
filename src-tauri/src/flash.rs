@@ -60,7 +60,7 @@ pub async fn flash_to_mcu(
                 // @todo ここ公開したらssh外す
                 .args([
                     "clone",
-                    "git@github.com:project-mahiwa/mahiwa-backend.git",
+                    "https://github.com/project-mahiwa/mahiwa-backend.git",
                     &backend_dir.to_string_lossy(),
                 ])
                 .output()
@@ -79,7 +79,7 @@ pub async fn flash_to_mcu(
             // @todo ここ公開したらssh外す
             .args([
                 "clone",
-                "git@github.com:project-mahiwa/mahiwa-backend.git",
+                "https://github.com/project-mahiwa/mahiwa-backend.git",
                 &backend_dir.to_string_lossy(),
             ])
             .output()
@@ -108,6 +108,16 @@ pub async fn flash_to_mcu(
             format!("cp {} {}", wasm_file_path, tmp_wasm_path_str),
         )
         .unwrap();
+
+    /*
+     * WebAssemblyで不要なデバッグ情報を消して容量削減(最適化ではない)
+     * 最適化もデバッグ情報削除もコンパイラでできるが、任意のwasmが来る想定で実施する
+     */
+    Command::new("wasm-strip")
+        .args(["-o", tmp_wasm_path_str, tmp_wasm_path_str])
+        .output()
+        .expect("Failed to execute wasm-strip");
+    window.emit("btf-flash-prgoress", "wasm-strip").unwrap();
 
     /*
      * xxdでヘッダファイルを作成
